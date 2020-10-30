@@ -3,6 +3,7 @@ package com.incubyte.service;
 import com.incubyte.constants.ApplicationConstants;
 import com.incubyte.exception.InvalidStringException;
 import org.assertj.core.api.Assertions;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 import static org.assertj.core.api.BDDAssertions.then;
@@ -15,7 +16,6 @@ import static org.junit.Assert.assertEquals;
 public class StringCalculatorTest {
 
     private final StringCalculator stringCalculator = new StringCalculator();
-
 
     @Test
     public void testAddEmptyNumbersComma() {
@@ -46,5 +46,33 @@ public class StringCalculatorTest {
         Throwable throwable = Assertions.catchThrowable(() -> stringCalculator.add(inputNumberNewLineComma));
         then(throwable).isExactlyInstanceOf(InvalidStringException.class).hasMessage(ApplicationConstants.INVALID_INPUT);
     }
+
+    @Test
+    public void testAddWithDifferentDelimiter() {
+        String inputNumberOne = "//;\n1;2";
+        int sumOfNumbers = stringCalculator.add(inputNumberOne);
+        assertEquals("Sum is equal", 3, sumOfNumbers);
+    }
+
+    @Test
+    public void testAddWithSingleNegativeNumber() {
+        String inputNumber = "1,-2";
+        Throwable throwable = Assertions.catchThrowable(() -> stringCalculator.add(inputNumber));
+        then(throwable).isExactlyInstanceOf(InvalidStringException.class).hasMessage(ApplicationConstants.NEG_NOT_ALLOWED + " and they are [-2]");
+    }
+
+    @Test
+    public void testAddWithMultipleNegativeNumber() {
+        String inputNumber = "1,-2,-3,-4";
+        Throwable throwable = Assertions.catchThrowable(() -> stringCalculator.add(inputNumber));
+        then(throwable).isExactlyInstanceOf(InvalidStringException.class).hasMessage(ApplicationConstants.NEG_NOT_ALLOWED + " and they are [-2, -3, -4]");
+    }
+
+    @AfterClass
+    public static void howManyTimesMethodCalled() {
+        int counter = StringCalculator.getCalledCount();
+        assertEquals("Counter is equal", 9, counter);
+    }
+
 
 }
