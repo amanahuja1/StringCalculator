@@ -9,7 +9,6 @@ public class ApplicationConstants {
 
     }
 
-    public static final String MSG_FOR_MORE_NO = "More than two numbers are not allowed in the input";
     public static final String DEFAULT_DELIMITER = ",";
 
 }

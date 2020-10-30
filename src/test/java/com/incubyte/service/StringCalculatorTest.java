@@ -1,11 +1,7 @@
 package com.incubyte.service;
 
-import com.incubyte.constants.ApplicationConstants;
-import com.incubyte.exception.InvalidStringException;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -31,10 +27,10 @@ public class StringCalculatorTest {
     }
 
     @Test
-    public void testAddMoreThanTwoNumbers() {
-        String inputNumber = "1,2,3";
-        Throwable throwable = Assertions.catchThrowable(() -> stringCalculator.add(inputNumber));
-        then(throwable).isExactlyInstanceOf(InvalidStringException.class).hasMessage(ApplicationConstants.MSG_FOR_MORE_NO);
+    public void testAddUnknownNumbers() {
+        String inputNumber = "1,2,3,4,5,6,7,8,9,10";
+        int sumOfNumbers = stringCalculator.add(inputNumber);
+        assertEquals("Sum is equal for unknown amount of numbers", 55, sumOfNumbers);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.incubyte.service;
 
 import com.incubyte.constants.ApplicationConstants;
-import com.incubyte.exception.InvalidStringException;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -23,8 +22,6 @@ public class StringCalculator {
             return sumOfNumbers;
         }
         String[] numberArray = numbers.split(ApplicationConstants.DEFAULT_DELIMITER);
-        if (numberArray.length > 2)
-            throw new InvalidStringException(ApplicationConstants.MSG_FOR_MORE_NO);
         int[] parsedNumberArray = Stream.of(numberArray).mapToInt(Integer::parseInt).toArray();
         for (int number : parsedNumberArray) {
             sumOfNumbers += number;
