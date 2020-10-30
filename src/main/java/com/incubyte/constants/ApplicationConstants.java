@@ -10,5 +10,6 @@ public class ApplicationConstants {
     }
 
     public static final String DEFAULT_DELIMITER = ",";
+    public static final String INVALID_INPUT = "INVALID INPUT";
 
 }
