@@ -32,6 +32,9 @@ public class StringCalculator {
         int[] parsedNumberArray = Stream.of(numberArray).mapToInt(Integer::parseInt).toArray();
         areThereNegatives(parsedNumberArray);
         for (int number : parsedNumberArray) {
+            if (number > 1000) {
+                continue;
+            }
             sumOfNumbers += number;
         }
         return sumOfNumbers;
@@ -40,13 +43,14 @@ public class StringCalculator {
     private String[] handleDelimiter(String numbers) {
         String[] numberArray;
         if (numbers.matches("[\\/\\/][^0-9a-zA-Z]+[\n][0-9[^0-9a-zA-Z]]+")) {
-            delimiter = String.valueOf(numbers.charAt(2));
-            numbers = numbers.replaceAll(("[\\/\\/]+" + delimiter + "[\n]"), "");
-            if (!numbers.matches("[0-9]+" + delimiter + "[0-9]+")) {
-                throw new InvalidStringException(ApplicationConstants.INVALID_INPUT);
+            if (numbers.contains("[")) {
+                numbers = numbers.replaceAll("[\\/\\/]+[\\[][^0-9a-zA-Z]+[\\]][\n]", "");
+            } else {
+                delimiter = String.valueOf(numbers.charAt(2));
+                numbers = numbers.replaceAll(("[\\/\\/]+" + delimiter + "[\n]"), "");
             }
 
-            numberArray = numbers.split(delimiter);
+            numberArray = numbers.split("[^0-9a-zA-Z]+");
         } else {
             if (numbers.contains(System.lineSeparator()) || numbers.contains("\n")) {
                 numbers = numbers.replaceAll(System.lineSeparator(), ApplicationConstants.DEFAULT_DELIMITER);

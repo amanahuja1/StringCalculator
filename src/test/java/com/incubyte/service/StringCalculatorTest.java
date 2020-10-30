@@ -68,10 +68,24 @@ public class StringCalculatorTest {
         then(throwable).isExactlyInstanceOf(InvalidStringException.class).hasMessage(ApplicationConstants.NEG_NOT_ALLOWED + " and they are [-2, -3, -4]");
     }
 
+    @Test
+    public void testAddWithNoGreaterThan1000() {
+        String inputNumber = "2,1001";
+        int sumOfNumbers = stringCalculator.add(inputNumber);
+        assertEquals("Sum is equal", 2, sumOfNumbers);
+    }
+
+    @Test
+    public void testAddWithDelimitersOfAnyLength() {
+        String inputNumber = "//[***]\n1***2***3";
+        int sumOfNumbers = stringCalculator.add(inputNumber);
+        assertEquals("Sum is equal", 6, sumOfNumbers);
+    }
+
     @AfterClass
     public static void howManyTimesMethodCalled() {
         int counter = StringCalculator.getCalledCount();
-        assertEquals("Counter is equal", 9, counter);
+        assertEquals("Counter is equal", 11, counter);
     }
 
 
